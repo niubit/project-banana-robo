@@ -51,52 +51,52 @@ class MotorController(object):
         self.cleanup()
 
     def stop(self):
-        in1.stop()
-        in2.stop()
-        in3.stop()
-        in4.stop()
+        self.in1.stop()
+        self.in2.stop()
+        self.in3.stop()
+        self.in4.stop()
 
     def forward(self, duration=None):
-        in1.start(100)
-        in2.stop()
-        in3.start(100)
-        in4.stop()
+        self.in1.start(100)
+        self.in2.stop()
+        self.in3.start(100)
+        self.in4.stop()
         if duration:
             time.sleep(duration)
 
     def reverse(self, duration=None):
-        in2.start(100)
-        in1.stop()
-        in4.start(100)
-        in3.stop()
+        self.in2.start(100)
+        self.in1.stop()
+        self.in4.start(100)
+        self.in3.stop()
         if duration:
             time.sleep(duration)
 
     def turn_l(self, radius=0, duration=None):
         if radius > 0:
-            in1.start(100)
-            in2.stop()
-            in3.start(radius)
-            in4.stop()
+            self.in1.start(100)
+            self.in2.stop()
+            self.in3.start(radius)
+            self.in4.stop()
         else:
-            in1.start(100)
-            in2.stop()
-            in4.start(100)
-            in3.stop()
+            self.in1.start(100)
+            self.in2.stop()
+            self.in4.start(100)
+            self.in3.stop()
         if duration:
             time.sleep(duration)
 
     def turn_r(self, radius=0, duration=None):
         if radius > 0:
-            in1.start(radius)
-            in2.stop()
-            in3.start(100)
-            in4.stop()
+            self.in1.start(radius)
+            self.in2.stop()
+            self.in3.start(100)
+            self.in4.stop()
         else:
-            in2.start(100)
-            in1.stop()
-            in3.start(100)
-            in4.stop()
+            self.in2.start(100)
+            self.in1.stop()
+            self.in3.start(100)
+            self.in4.stop()
         if duration:
             time.sleep(duration)
 
