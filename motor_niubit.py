@@ -17,13 +17,14 @@ import RPi.GPIO as GPIO
 import time
 
 
+# Right (BCM)
+RIGHT_IN1 = 27
+RIGHT_IN2 = 22
 # Left (BCM)
 LEFT_IN3 = 24
 LEFT_IN4 = 23
 
-# Right (BCM)
-RIGHT_IN1 = 22
-RIGHT_IN2 = 27
+FRECUENCY = 20
 
 PINS = {"L": {"IN1": LEFT_IN3, "IN2": LEFT_IN4},
         "R": {"IN1": RIGHT_IN1, "IN2": RIGHT_IN2}}
@@ -36,58 +37,66 @@ class MotorController(object):
         super(MotorController, self).__init__()
 
         GPIO.setmode(GPIO.BCM)
-        for k in PINS.keys():
-            GPIO.setup(PINS[k]["IN1"], GPIO.OUT)
-            GPIO.setup(PINS[k]["IN2"], GPIO.OUT)
-#        self.pwm = {"L": GPIO.PWM(PINS["L"]["EN"], 20),
-#                    "R": GPIO.PWM(PINS["R"]["EN"], 20)}
+        GPIO.setup(RIGHT_IN1, GPIO.OUT)
+        GPIO.setup(RIGHT_IN2, GPIO.OUT)
+        GPIO.setup(LEFT_IN3, GPIO.OUT)
+        GPIO.setup(LEFT_IN4, GPIO.OUT)
+        in1 = GPIO.PWM(RIGHT_IN1, FRECUENCY)
+        in2 = GPIO.PWM(RIGHT_IN2, FRECUENCY)
+        in3 = GPIO.PWM(RIGHT_IN3, FRECUENCY)
+        in4 = GPIO.PWM(RIGHT_IN4, FRECUENCY)
 
     def __del__(self):
         self.stop()
         self.cleanup()
 
     def stop(self):
-        for k in PINS.keys():
-            GPIO.output(PINS[k]["IN1"], GPIO.LOW)
-            GPIO.output(PINS[k]["IN2"], GPIO.LOW)
-
-    def _forward(self, k, dc=100):
-        GPIO.PWM(PINS[k]["IN1"], 20).start(dc)
-        GPIO.output(PINS[k]["IN2"], GPIO.LOW)
-
-    def _reverse(self, k, dc=100):
-        GPIO.output(PINS[k]["IN1"], GPIO.LOW)
-        GPIO.PWM(PINS[k]["IN2"], 20).start(dc)
+        in1.stop()
+        in2.stop()
+        in3.stop()
+        in4.stop()
 
     def forward(self, duration=None):
-        self._forward("L")
-        self._forward("R")
+        in1.start(100)
+        in2.stop()
+        in3.start(100)
+        in4.stop()
         if duration:
             time.sleep(duration)
 
     def reverse(self, duration=None):
-        self._reverse("L")
-        self._reverse("R")
+        in2.start(100)
+        in1.stop()
+        in4.start(100)
+        in3.stop()
         if duration:
             time.sleep(duration)
 
     def turn_l(self, radius=0, duration=None):
         if radius > 0:
-            self._forward("L", radius)
-            self._forward("R")
+            in1.start(100)
+            in2.stop()
+            in3.start(radius)
+            in4.stop()
         else:
-            self._reverse("L")
-            self._forward("R")
+            in1.start(100)
+            in2.stop()
+            in4.start(100)
+            in3.stop()
         if duration:
             time.sleep(duration)
 
     def turn_r(self, radius=0, duration=None):
         if radius > 0:
-            self._forward("L")
-            self._forward("R", radius)
+            in1.start(radius)
+            in2.stop()
+            in3.start(100)
+            in4.stop()
         else:
-            self._forward("L")
-            self._reverse("R")
+            in2.start(100)
+            in1.stop()
+            in3.start(100)
+            in4.stop()
         if duration:
             time.sleep(duration)
 
