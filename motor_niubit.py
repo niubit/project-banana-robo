@@ -43,8 +43,8 @@ class MotorController(object):
         GPIO.setup(LEFT_IN4, GPIO.OUT)
         self.in1 = GPIO.PWM(RIGHT_IN1, FRECUENCY)
         self.in2 = GPIO.PWM(RIGHT_IN2, FRECUENCY)
-        self.in3 = GPIO.PWM(RIGHT_IN3, FRECUENCY)
-        self.in4 = GPIO.PWM(RIGHT_IN4, FRECUENCY)
+        self.in3 = GPIO.PWM(LEFT_IN3, FRECUENCY)
+        self.in4 = GPIO.PWM(LEFT_IN4, FRECUENCY)
 
     def __del__(self):
         self.stop()
