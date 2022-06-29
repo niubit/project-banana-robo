@@ -28,7 +28,7 @@ import numpy as np
 import time
 import io
 import picamera
-from motor import MotorController
+from motor_niubit import MotorController
 
 
 # https://github.com/waveform80/picamera/issues/383
@@ -109,7 +109,7 @@ def main():
                 elapsed_ms = (time.time() - start_ms)*1000.0
                 obj = None
                 if results:
-                    obj = next((x for x in results if labels[x.label_id] == "banana"), None)
+                    obj = next((x for x in results if labels[x.label_id] == "book"), None)
 
                 if obj:
                     box = obj.bounding_box.flatten().tolist()
