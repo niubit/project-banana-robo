@@ -130,7 +130,7 @@ def main():
                     elif (obj_center - CAMERA_WIDTH // 2) < -CAMERA_WIDTH // 6:
                         print("TURN L")
                         mot.turn_l(radius=30)
-                    elif obj_width < CAMERA_WIDTH / 2:
+                    elif obj_width < CAMERA_WIDTH / 1.5:
                         print("FORWARD")
                         mot.forward()
                     else:
