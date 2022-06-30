@@ -104,7 +104,7 @@ def main():
 
                 # Run detection
                 start_ms = time.time()
-                results = engine.DetectWithImage(image,
+                results = engine.detect_with_image(image,
                                                  threshold=0.2, top_k=5)
                 elapsed_ms = (time.time() - start_ms)*1000.0
                 obj = None
