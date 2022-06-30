@@ -109,7 +109,7 @@ def main():
                 elapsed_ms = (time.time() - start_ms)*1000.0
                 obj = None
                 if results:
-                    obj = next((x for x in results if labels[x.label_id] == "book"), None)
+                    obj = next((x for x in results if labels[x.label_id] in ["car", "bus"]), None)
 
                 if obj:
                     box = obj.bounding_box.flatten().tolist()
@@ -124,13 +124,13 @@ def main():
                     obj_center = box[0] + obj_width // 2
                     draw.point((obj_center, box[1] + (box[3] - box[1])//2))
                     print(obj_center - CAMERA_WIDTH // 2)
-                    if (obj_center - CAMERA_WIDTH // 2) > CAMERA_WIDTH // 4:
+                    if (obj_center - CAMERA_WIDTH // 2) > CAMERA_WIDTH // 6:
                         print("TURN R")
                         mot.turn_r(radius=30)
-                    elif (obj_center - CAMERA_WIDTH // 2) < -CAMERA_WIDTH // 4:
+                    elif (obj_center - CAMERA_WIDTH // 2) < -CAMERA_WIDTH // 6:
                         print("TURN L")
                         mot.turn_l(radius=30)
-                    elif obj_width < CAMERA_WIDTH / 4:
+                    elif obj_width < CAMERA_WIDTH / 2:
                         print("FORWARD")
                         mot.forward()
                     else:
